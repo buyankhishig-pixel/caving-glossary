@@ -4,427 +4,750 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>An interactive glossary created from the uploaded Rio Tinto Copper Projects document. Search technical terms, filter alphabetically, and review definitions in one place.</title>
+<title>Caving Terminology | Mining & Geotechnical Engineering</title>
 
 <style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+:root{
+    --bg:#0b0d0f;
+    --bg2:#121518;
+    --card:#181c20;
+    --card-hover:#20252a;
+    --text:#f4f4f2;
+    --muted:#a7adb2;
+    --accent:#c99545;
+    --accent2:#e3b66c;
+    --border:#2d3338;
+    --white:#ffffff;
 }
 
-:root {
-    --bg: #101214;
-    --card: #1b1f22;
-    --card2: #24292d;
-    --text: #f5f5f5;
-    --muted: #a9afb3;
-    --gold: #c99545;
-    --gold-light: #e5b86a;
-    --border: #343a3f;
-    --shadow: rgba(0,0,0,0.35);
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
-body.light {
-    --bg: #f2f2ef;
-    --card: #ffffff;
-    --card2: #eeeeea;
-    --text: #202326;
-    --muted: #666;
-    --gold: #9a681d;
-    --gold-light: #b47c28;
-    --border: #d7d7d2;
-    --shadow: rgba(0,0,0,0.12);
+html{
+    scroll-behavior:smooth;
 }
 
-body {
-    font-family: Arial, Helvetica, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    line-height: 1.6;
-    transition: 0.3s;
+body{
+    font-family:
+        Inter,
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.6;
 }
 
-/* HERO */
 
-.hero {
-    min-height: 500px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
+/* =========================
+   HERO
+========================= */
+
+.hero{
+    min-height:570px;
+
+    position:relative;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    text-align:center;
 
     background:
-        linear-gradient(rgba(8,10,12,0.72), rgba(8,10,12,0.88)),
-        url("https://images.unsplash.com/photo-1513828583688-c52646db42da?auto=format&fit=crop&w=2000&q=85")
-        center/cover;
+        linear-gradient(
+            rgba(5,7,8,.58),
+            rgba(5,7,8,.92)
+        ),
+        url("https://images.unsplash.com/photo-1513828583688-c52646db42da?auto=format&fit=crop&w=2200&q=90")
+        center/cover no-repeat;
 }
 
-.hero-content {
-    max-width: 1000px;
-    padding: 40px 20px;
+.hero-content{
+    width:min(1000px,92%);
+    padding:40px 20px;
 }
 
-.hero-icon {
-    font-size: 60px;
-    margin-bottom: 15px;
+.mining-icon{
+    font-size:62px;
+    margin-bottom:15px;
 }
 
-.hero h1 {
-    font-size: clamp(42px, 7vw, 82px);
-    letter-spacing: 5px;
-    font-weight: 800;
-    margin-bottom: 15px;
+.hero h1{
+    font-size:
+        clamp(42px,7vw,82px);
+
+    font-weight:800;
+
+    letter-spacing:
+        clamp(2px,1vw,7px);
+
+    line-height:1.05;
+
+    margin-bottom:20px;
 }
 
-.hero p {
-    font-size: 20px;
-    color: #ddd;
+.hero h1 span{
+    color:var(--accent2);
 }
 
-.hero-sub {
-    color: var(--gold-light) !important;
-    font-weight: bold;
-    margin-top: 8px;
+.hero-main-text{
+    font-size:22px;
+    color:#eee;
 }
 
-/* TOP BAR */
+.hero-sub{
+    margin-top:8px;
 
-.topbar {
-    position: absolute;
-    top: 20px;
-    right: 25px;
-    z-index: 5;
+    color:var(--accent2);
+
+    font-size:16px;
+
+    letter-spacing:2px;
+
+    text-transform:uppercase;
 }
 
-.theme-btn {
-    border: 1px solid rgba(255,255,255,0.3);
-    background: rgba(0,0,0,0.35);
-    color: white;
-    border-radius: 30px;
-    padding: 10px 16px;
-    cursor: pointer;
-    font-size: 15px;
+
+/* =========================
+   THEME BUTTON
+========================= */
+
+.theme-button{
+    position:absolute;
+
+    top:25px;
+    right:25px;
+
+    border:1px solid rgba(255,255,255,.3);
+
+    background:rgba(0,0,0,.4);
+
+    color:white;
+
+    padding:11px 17px;
+
+    border-radius:30px;
+
+    cursor:pointer;
+
+    backdrop-filter:blur(8px);
+
+    font-size:14px;
 }
 
-/* MAIN */
-
-.container {
-    width: min(1200px, 92%);
-    margin: auto;
+.theme-button:hover{
+    background:var(--accent);
 }
 
-.controls {
-    margin-top: -45px;
-    position: relative;
-    z-index: 2;
+
+/* =========================
+   MAIN
+========================= */
+
+.container{
+    width:min(1250px,92%);
+    margin:auto;
 }
 
-.search-box {
-    background: var(--card);
-    border: 1px solid var(--border);
-    box-shadow: 0 12px 35px var(--shadow);
-    border-radius: 18px;
-    padding: 22px;
+
+/* =========================
+   SEARCH
+========================= */
+
+.search-wrapper{
+    margin-top:-50px;
+
+    position:relative;
+
+    z-index:5;
 }
 
-.search-box input {
-    width: 100%;
-    padding: 18px 22px;
-    border-radius: 12px;
-    border: 2px solid var(--border);
-    outline: none;
-    background: var(--bg);
-    color: var(--text);
-    font-size: 18px;
+.search-container{
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    padding:22px;
+
+    border-radius:20px;
+
+    box-shadow:
+        0 20px 60px rgba(0,0,0,.4);
 }
 
-.search-box input:focus {
-    border-color: var(--gold);
+.search-input{
+    width:100%;
+
+    padding:20px 24px;
+
+    border-radius:14px;
+
+    border:1px solid var(--border);
+
+    background:var(--bg2);
+
+    color:var(--text);
+
+    font-size:18px;
+
+    outline:none;
 }
 
-/* STATS */
-
-.stats {
-    display: flex;
-    justify-content: center;
-    gap: 25px;
-    margin: 35px 0;
-    flex-wrap: wrap;
+.search-input:focus{
+    border-color:var(--accent);
 }
 
-.stat {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 18px 35px;
-    text-align: center;
-    min-width: 180px;
+.search-input::placeholder{
+    color:#777;
 }
 
-.stat-number {
-    font-size: 32px;
-    color: var(--gold-light);
-    font-weight: bold;
+
+/* =========================
+   STATISTICS
+========================= */
+
+.stats{
+    display:flex;
+
+    justify-content:center;
+
+    gap:20px;
+
+    flex-wrap:wrap;
+
+    margin:35px 0;
 }
 
-.stat-label {
-    color: var(--muted);
+.stat-card{
+    min-width:190px;
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    border-radius:16px;
+
+    padding:20px 30px;
+
+    text-align:center;
 }
 
-/* ALPHABET */
+.stat-number{
+    font-size:31px;
 
-.alphabet {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 7px;
-    margin-bottom: 35px;
+    font-weight:800;
+
+    color:var(--accent2);
 }
 
-.letter {
-    width: 38px;
-    height: 38px;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-    background: var(--card);
-    color: var(--text);
-    cursor: pointer;
-    font-weight: bold;
+.stat-label{
+    color:var(--muted);
+
+    font-size:14px;
 }
 
-.letter:hover,
-.letter.active {
-    background: var(--gold);
-    color: white;
-    border-color: var(--gold);
+
+/* =========================
+   ALPHABET
+========================= */
+
+.alphabet{
+    display:flex;
+
+    flex-wrap:wrap;
+
+    justify-content:center;
+
+    gap:7px;
+
+    margin-bottom:35px;
 }
 
-/* GLOSSARY */
+.letter{
+    width:39px;
+    height:39px;
 
-.glossary {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 18px;
-    padding-bottom: 60px;
+    border-radius:8px;
+
+    border:1px solid var(--border);
+
+    background:var(--card);
+
+    color:var(--text);
+
+    cursor:pointer;
+
+    font-weight:bold;
+
+    transition:.2s;
 }
 
-.term-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 15px;
-    padding: 22px;
-    cursor: pointer;
-    transition: 0.25s;
-    box-shadow: 0 5px 15px var(--shadow);
+.letter:hover{
+    border-color:var(--accent);
+
+    color:var(--accent2);
 }
 
-.term-card:hover {
-    transform: translateY(-5px);
-    border-color: var(--gold);
+.letter.active{
+    background:var(--accent);
+
+    color:white;
+
+    border-color:var(--accent);
 }
 
-.term {
-    color: var(--gold-light);
-    font-size: 21px;
-    font-weight: bold;
-    margin-bottom: 5px;
+
+/* =========================
+   GLOSSARY
+========================= */
+
+.glossary{
+    display:grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fill,
+            minmax(310px,1fr)
+        );
+
+    gap:20px;
+
+    padding-bottom:70px;
 }
 
-.mongol {
-    font-size: 16px;
-    font-weight: bold;
-    margin-bottom: 12px;
+.card{
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    border-radius:18px;
+
+    padding:25px;
+
+    cursor:pointer;
+
+    transition:
+        transform .25s,
+        border .25s,
+        background .25s;
+
+    min-height:215px;
 }
 
-.definition {
-    color: var(--muted);
-    font-size: 14px;
+.card:hover{
+    transform:translateY(-6px);
+
+    border-color:var(--accent);
+
+    background:var(--card-hover);
 }
 
-.more {
-    margin-top: 14px;
-    font-size: 13px;
-    color: var(--gold-light);
+.card-top{
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:flex-start;
+
+    gap:15px;
 }
 
-/* MODAL */
+.card-letter{
+    width:38px;
+    height:38px;
 
-.modal {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.75);
-    z-index: 100;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    background:
+        rgba(201,149,69,.12);
+
+    border:
+        1px solid
+        rgba(201,149,69,.3);
+
+    border-radius:9px;
+
+    color:var(--accent2);
+
+    font-weight:bold;
 }
 
-.modal.show {
-    display: flex;
+.english{
+    color:var(--accent2);
+
+    font-size:21px;
+
+    font-weight:750;
+
+    line-height:1.25;
+
+    flex:1;
 }
 
-.modal-content {
-    width: min(750px, 100%);
-    max-height: 90vh;
-    overflow-y: auto;
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 35px;
-    position: relative;
-    box-shadow: 0 20px 70px rgba(0,0,0,0.5);
+.mongolian{
+    font-size:16px;
+
+    font-weight:bold;
+
+    margin-top:13px;
+
+    color:var(--text);
 }
 
-.close {
-    position: absolute;
-    right: 20px;
-    top: 15px;
-    font-size: 30px;
-    cursor: pointer;
-    color: var(--muted);
+.definition{
+    color:var(--muted);
+
+    font-size:14px;
+
+    margin-top:13px;
+
+    display:
+        -webkit-box;
+
+    -webkit-line-clamp:4;
+
+    -webkit-box-orient:vertical;
+
+    overflow:hidden;
 }
 
-.close:hover {
-    color: var(--gold-light);
+.view-details{
+    color:var(--accent2);
+
+    font-size:13px;
+
+    margin-top:16px;
+
+    font-weight:bold;
 }
 
-.modal-term {
-    font-size: 34px;
-    color: var(--gold-light);
-    margin-bottom: 5px;
+
+/* =========================
+   LOADING
+========================= */
+
+.loading{
+    grid-column:1/-1;
+
+    text-align:center;
+
+    padding:80px;
+
+    color:var(--muted);
 }
 
-.modal-mongol {
-    font-size: 22px;
-    font-weight: bold;
-    margin-bottom: 30px;
+.spinner{
+    width:45px;
+    height:45px;
+
+    border:3px solid var(--border);
+
+    border-top-color:var(--accent);
+
+    border-radius:50%;
+
+    animation:
+        spin .8s linear infinite;
+
+    margin:0 auto 20px;
 }
 
-.section-title {
-    color: var(--gold-light);
-    font-weight: bold;
-    margin-bottom: 8px;
-    margin-top: 20px;
+@keyframes spin{
+    to{
+        transform:rotate(360deg);
+    }
 }
 
-.modal-text {
-    color: var(--muted);
-    font-size: 16px;
+
+/* =========================
+   NO RESULTS
+========================= */
+
+.no-results{
+    grid-column:1/-1;
+
+    text-align:center;
+
+    padding:70px 20px;
+
+    color:var(--muted);
 }
 
-/* LOADING */
+.no-results-icon{
+    font-size:45px;
 
-.loading {
-    text-align: center;
-    padding: 60px;
-    color: var(--muted);
-    font-size: 18px;
+    margin-bottom:10px;
 }
 
-.no-results {
-    text-align: center;
-    padding: 50px;
-    color: var(--muted);
+
+/* =========================
+   MODAL
+========================= */
+
+.modal{
+    position:fixed;
+
+    inset:0;
+
+    background:
+        rgba(0,0,0,.78);
+
+    backdrop-filter:
+        blur(8px);
+
+    display:none;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:20px;
+
+    z-index:1000;
 }
 
-/* FOOTER */
-
-footer {
-    border-top: 1px solid var(--border);
-    padding: 30px 20px;
-    text-align: center;
-    color: var(--muted);
+.modal.active{
+    display:flex;
 }
 
-footer strong {
-    color: var(--gold-light);
+.modal-box{
+    width:min(780px,100%);
+
+    max-height:90vh;
+
+    overflow:auto;
+
+    background:var(--card);
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:22px;
+
+    padding:38px;
+
+    position:relative;
+
+    box-shadow:
+        0 30px 100px rgba(0,0,0,.6);
 }
 
-/* MOBILE */
+.close{
+    position:absolute;
 
-@media(max-width:600px) {
+    right:20px;
+    top:15px;
 
-    .hero {
-        min-height: 430px;
+    width:38px;
+    height:38px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    cursor:pointer;
+
+    color:var(--muted);
+
+    font-size:27px;
+}
+
+.close:hover{
+    background:var(--bg2);
+
+    color:white;
+}
+
+.modal-english{
+    color:var(--accent2);
+
+    font-size:
+        clamp(27px,5vw,40px);
+
+    font-weight:800;
+
+    line-height:1.2;
+
+    padding-right:35px;
+}
+
+.modal-mongolian{
+    font-size:21px;
+
+    font-weight:bold;
+
+    margin-top:8px;
+
+    margin-bottom:30px;
+}
+
+.info-title{
+    color:var(--accent2);
+
+    font-weight:bold;
+
+    font-size:15px;
+
+    text-transform:uppercase;
+
+    letter-spacing:1px;
+
+    margin-top:25px;
+
+    margin-bottom:8px;
+}
+
+.info-text{
+    color:var(--muted);
+
+    font-size:16px;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+    border-top:
+        1px solid
+        var(--border);
+
+    padding:35px 20px;
+
+    text-align:center;
+
+    color:var(--muted);
+}
+
+footer strong{
+    color:var(--accent2);
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:650px){
+
+    .hero{
+        min-height:500px;
     }
 
-    .hero h1 {
-        letter-spacing: 2px;
+    .theme-button{
+        top:15px;
+        right:15px;
     }
 
-    .hero p {
-        font-size: 16px;
+    .mining-icon{
+        font-size:48px;
     }
 
-    .controls {
-        margin-top: -35px;
+    .hero-main-text{
+        font-size:18px;
     }
 
-    .search-box {
-        padding: 15px;
+    .search-wrapper{
+        margin-top:-35px;
     }
 
-    .glossary {
-        grid-template-columns: 1fr;
+    .search-container{
+        padding:15px;
     }
 
-    .modal-content {
-        padding: 25px;
+    .search-input{
+        font-size:16px;
+        padding:17px;
     }
 
-    .modal-term {
-        font-size: 27px;
+    .glossary{
+        grid-template-columns:1fr;
     }
+
+    .modal-box{
+        padding:28px 22px;
+    }
+
 }
 </style>
 </head>
 
+
 <body>
 
-<!-- HERO -->
+
+<!-- =========================
+     HERO
+========================= -->
 
 <section class="hero">
 
-    <div class="topbar">
-        <button class="theme-btn" onclick="toggleTheme()">
-            🌙 / ☀️
-        </button>
-    </div>
+    <button
+        class="theme-button"
+        onclick="toggleTheme()"
+        id="themeButton">
+
+        🌙 Dark
+
+    </button>
+
 
     <div class="hero-content">
 
-        <div class="hero-icon">⛏️</div>
+        <div class="mining-icon">
+            ⛏️
+        </div>
 
-        <h1>CAVING TERMINOLOGY</h1>
+        <h1>
+            CAVING <span>TERMINOLOGY</span>
+        </h1>
 
-        <p>English → Монгол</p>
+        <div class="hero-main-text">
+            English → Монгол
+        </div>
 
-        <p class="hero-sub">
+        <div class="hero-sub">
             Mining & Geotechnical Engineering
-        </p>
+        </div>
 
     </div>
 
 </section>
 
 
-<!-- MAIN -->
+
+<!-- =========================
+     MAIN
+========================= -->
 
 <main class="container">
 
-    <section class="controls">
 
-        <div class="search-box">
+    <!-- SEARCH -->
+
+    <section class="search-wrapper">
+
+        <div class="search-container">
 
             <input
-                id="search"
+                class="search-input"
+                id="searchInput"
                 type="text"
-                placeholder="🔎 Search English or Монгол нэр..."
-                oninput="searchTerms()"
+                placeholder="🔎  Search English term or Монгол нэр..."
+                autocomplete="off"
             >
 
         </div>
@@ -432,80 +755,157 @@ footer strong {
     </section>
 
 
-    <!-- STATS -->
+
+    <!-- STATISTICS -->
 
     <section class="stats">
 
-        <div class="stat">
-            <div class="stat-number" id="termCount">0</div>
-            <div class="stat-label">Terms</div>
+        <div class="stat-card">
+
+            <div
+                class="stat-number"
+                id="termCount">
+
+                0
+
+            </div>
+
+            <div class="stat-label">
+                Glossary Terms
+            </div>
+
         </div>
 
-        <div class="stat">
-            <div class="stat-number">A–Z</div>
-            <div class="stat-label">Alphabetical</div>
+
+        <div class="stat-card">
+
+            <div class="stat-number">
+                A–Z
+            </div>
+
+            <div class="stat-label">
+                Alphabetical Index
+            </div>
+
         </div>
 
-        <div class="stat">
-            <div class="stat-number">EN → MN</div>
-            <div class="stat-label">Translation</div>
+
+        <div class="stat-card">
+
+            <div class="stat-number">
+                EN → MN
+            </div>
+
+            <div class="stat-label">
+                Bilingual Glossary
+            </div>
+
         </div>
 
     </section>
+
 
 
     <!-- ALPHABET -->
 
-    <div class="alphabet" id="alphabet"></div>
+    <div
+        class="alphabet"
+        id="alphabet">
+
+    </div>
+
 
 
     <!-- GLOSSARY -->
 
-    <section id="glossary" class="glossary">
+    <section
+        class="glossary"
+        id="glossary">
 
         <div class="loading">
-            Loading glossary...
+
+            <div class="spinner"></div>
+
+            Loading Caving Terminology...
+
         </div>
 
     </section>
 
+
 </main>
 
 
-<!-- MODAL -->
 
-<div class="modal" id="modal">
+<!-- =========================
+     MODAL
+========================= -->
 
-    <div class="modal-content">
+<div
+    class="modal"
+    id="modal">
 
-        <span class="close" onclick="closeModal()">×</span>
+    <div class="modal-box">
 
-        <div class="modal-term" id="modalEnglish"></div>
+        <div
+            class="close"
+            onclick="closeModal()">
 
-        <div class="modal-mongol" id="modalMongol"></div>
+            ×
 
-        <div class="section-title">
+        </div>
+
+
+        <div
+            class="modal-english"
+            id="modalEnglish">
+
+        </div>
+
+
+        <div
+            class="modal-mongolian"
+            id="modalMongolian">
+
+        </div>
+
+
+        <div class="info-title">
             English Definition
         </div>
 
-        <div class="modal-text" id="modalEnglishDefinition"></div>
+        <div
+            class="info-text"
+            id="modalEnglishDefinition">
 
-        <div class="section-title">
+        </div>
+
+
+        <div class="info-title">
             Монгол тайлбар
         </div>
 
-        <div class="modal-text" id="modalMongolDefinition"></div>
+        <div
+            class="info-text"
+            id="modalMongolianDefinition">
+
+        </div>
 
     </div>
 
 </div>
 
 
-<!-- FOOTER -->
+
+<!-- =========================
+     FOOTER
+========================= -->
 
 <footer>
 
-    <strong>Caving Terminology Glossary</strong>
+    <strong>
+        Caving Terminology Glossary
+    </strong>
 
     <br>
 
@@ -514,148 +914,243 @@ footer strong {
 </footer>
 
 
+
 <script>
 
-/* ==========================================
-   GOOGLE SHEETS CSV
-========================================== */
+
+/* =====================================
+   GOOGLE SHEETS
+===================================== */
 
 const CSV_URL =
 "https://docs.google.com/spreadsheets/d/e/2PACX-1vQzzKTwRYU8uWvuANW0d7s-I5xK4uwF0QhwJIiQlCWGYZX0MbkLXvOTQ6yfJdzPmT38ykXIFpWIK36R/pub?gid=129970236&single=true&output=csv";
 
 
-let terms = [];
-let currentLetter = "ALL";
+let glossaryData = [];
+
+let selectedLetter = "ALL";
 
 
-/* ==========================================
+/* =====================================
    CSV PARSER
-========================================== */
+===================================== */
 
-function parseCSV(text) {
+function parseCSV(csv){
 
     const rows = [];
+
     let row = [];
+
     let value = "";
-    let insideQuotes = false;
 
-    for (let i = 0; i < text.length; i++) {
+    let quotes = false;
 
-        const char = text[i];
-        const next = text[i + 1];
 
-        if (char === '"' && insideQuotes && next === '"') {
+    for(let i=0;i<csv.length;i++){
+
+        const char = csv[i];
+
+        const next = csv[i+1];
+
+
+        if(char === '"' && quotes && next === '"'){
 
             value += '"';
+
             i++;
 
-        } else if (char === '"') {
+        }
 
-            insideQuotes = !insideQuotes;
+        else if(char === '"'){
 
-        } else if (char === ',' && !insideQuotes) {
+            quotes = !quotes;
+
+        }
+
+        else if(char === ',' && !quotes){
 
             row.push(value);
+
             value = "";
 
-        } else if ((char === '\n' || char === '\r') && !insideQuotes) {
+        }
 
-            if (char === '\r' && next === '\n') {
+        else if(
+            (char === '\n' || char === '\r')
+            && !quotes
+        ){
+
+            if(
+                char === '\r'
+                && next === '\n'
+            ){
+
                 i++;
+
             }
 
             row.push(value);
+
             rows.push(row);
 
             row = [];
+
             value = "";
 
-        } else {
+        }
+
+        else{
 
             value += char;
 
         }
+
     }
 
-    if (value.length > 0 || row.length > 0) {
+
+    if(value || row.length){
 
         row.push(value);
+
         rows.push(row);
 
     }
 
+
     return rows;
+
 }
 
 
-/* ==========================================
-   LOAD DATA
-========================================== */
+/* =====================================
+   LOAD GOOGLE SHEET
+===================================== */
 
-async function loadGlossary() {
+async function loadGlossary(){
 
-    try {
+    const glossary =
+        document.getElementById("glossary");
 
-        const response = await fetch(
-            CSV_URL + "&t=" + Date.now()
-        );
 
-        if (!response.ok) {
-            throw new Error("Could not load Google Sheets");
-        }
+    try{
 
-        const csv = await response.text();
-
-        const rows = parseCSV(csv);
-
-        if (rows.length < 2) {
-            throw new Error("No glossary data found");
-        }
-
-        const headers = rows[0].map(h => h.trim());
-
-        terms = rows.slice(1)
-            .map(row => {
-
-                let obj = {};
-
-                headers.forEach((header, index) => {
-                    obj[header] = (row[index] || "").trim();
-                });
-
-                return obj;
-
-            })
-            .filter(item =>
-                item["English Term"] &&
-                item["English Term"].trim() !== ""
+        const response =
+            await fetch(
+                CSV_URL +
+                "&cache=" +
+                Date.now()
             );
 
-        terms.sort((a,b) =>
-            a["English Term"].localeCompare(
-                b["English Term"]
-            )
+
+        if(!response.ok){
+
+            throw new Error(
+                "Google Sheet could not be loaded"
+            );
+
+        }
+
+
+        const csv =
+            await response.text();
+
+
+        const rows =
+            parseCSV(csv);
+
+
+        if(rows.length < 2){
+
+            throw new Error(
+                "No glossary data"
+            );
+
+        }
+
+
+        const headers =
+            rows[0].map(
+                header =>
+                header.trim()
+            );
+
+
+        glossaryData =
+            rows.slice(1)
+
+            .map(row => {
+
+                const item = {};
+
+                headers.forEach(
+                    (header,index) => {
+
+                        item[header] =
+                            (
+                                row[index]
+                                || ""
+                            ).trim();
+
+                    }
+                );
+
+                return item;
+
+            })
+
+            .filter(item =>
+                item["English Term"]
+                &&
+                item["English Term"]
+                    .trim() !== ""
+            );
+
+
+        glossaryData.sort(
+            (a,b) =>
+                a["English Term"]
+                .localeCompare(
+                    b["English Term"]
+                )
         );
 
-        document.getElementById("termCount").textContent =
-            terms.length + "+";
+
+        document
+            .getElementById("termCount")
+            .textContent =
+            glossaryData.length + "+";
+
 
         createAlphabet();
 
-        displayTerms();
+        renderGlossary();
+
 
     }
-
-    catch(error) {
+    catch(error){
 
         console.error(error);
 
-        document.getElementById("glossary").innerHTML = `
+
+        glossary.innerHTML = `
+
             <div class="no-results">
-                ❌ Glossary could not be loaded.
-                <br><br>
-                Please check that the Google Sheet is published.
+
+                <div class="no-results-icon">
+                    ⚠️
+                </div>
+
+                <h3>
+                    Glossary could not be loaded
+                </h3>
+
+                <p>
+                    Please check your Google Sheet
+                    publishing settings.
+                </p>
+
             </div>
+
         `;
 
     }
@@ -663,254 +1158,467 @@ async function loadGlossary() {
 }
 
 
-/* ==========================================
+/* =====================================
    ALPHABET
-========================================== */
+===================================== */
 
-function createAlphabet() {
+function createAlphabet(){
 
     const alphabet =
         document.getElementById("alphabet");
 
+
     alphabet.innerHTML = "";
 
-    const allButton =
+
+    const all =
         document.createElement("button");
 
-    allButton.className = "letter active";
-    allButton.textContent = "ALL";
 
-    allButton.onclick = () => {
+    all.className =
+        "letter active";
 
-        currentLetter = "ALL";
 
-        document.querySelectorAll(".letter")
-            .forEach(btn => btn.classList.remove("active"));
+    all.textContent =
+        "ALL";
 
-        allButton.classList.add("active");
 
-        displayTerms();
+    all.onclick = function(){
+
+        selectedLetter = "ALL";
+
+        setActiveLetter(this);
+
+        renderGlossary();
 
     };
 
-    alphabet.appendChild(allButton);
+
+    alphabet.appendChild(all);
 
 
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").forEach(letter => {
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        .split("")
+        .forEach(letter => {
 
-        const button =
-            document.createElement("button");
-
-        button.className = "letter";
-        button.textContent = letter;
-
-        button.onclick = () => {
-
-            currentLetter = letter;
-
-            document.querySelectorAll(".letter")
-                .forEach(btn =>
-                    btn.classList.remove("active")
+            const button =
+                document.createElement(
+                    "button"
                 );
 
-            button.classList.add("active");
 
-            displayTerms();
+            button.className =
+                "letter";
 
-        };
 
-        alphabet.appendChild(button);
+            button.textContent =
+                letter;
 
-    });
+
+            button.onclick =
+                function(){
+
+                    selectedLetter =
+                        letter;
+
+                    setActiveLetter(
+                        this
+                    );
+
+                    renderGlossary();
+
+                };
+
+
+            alphabet.appendChild(button);
+
+        });
 
 }
 
 
-/* ==========================================
-   DISPLAY TERMS
-========================================== */
+function setActiveLetter(button){
 
-function displayTerms() {
+    document
+        .querySelectorAll(".letter")
+        .forEach(btn =>
+            btn.classList.remove(
+                "active"
+            )
+        );
+
+
+    button.classList.add("active");
+
+}
+
+
+/* =====================================
+   RENDER GLOSSARY
+===================================== */
+
+function renderGlossary(){
 
     const container =
-        document.getElementById("glossary");
+        document.getElementById(
+            "glossary"
+        );
+
 
     const search =
-        document.getElementById("search")
+        document
+            .getElementById(
+                "searchInput"
+            )
             .value
             .toLowerCase()
             .trim();
 
 
-    const filtered = terms.filter(item => {
-
-        const english =
-            (item["English Term"] || "").toLowerCase();
-
-        const mongol =
-            (item["Монгол нэр"] || "").toLowerCase();
-
-        const letterMatch =
-            currentLetter === "ALL" ||
-            english.startsWith(currentLetter.toLowerCase());
-
-        const searchMatch =
-            !search ||
-            english.includes(search) ||
-            mongol.includes(search);
-
-        return letterMatch && searchMatch;
-
-    });
+    const results =
+        glossaryData.filter(item => {
 
 
-    if (filtered.length === 0) {
+            const english =
+                (
+                    item["English Term"]
+                    || ""
+                ).toLowerCase();
+
+
+            const mongolian =
+                (
+                    item["Монгол нэр"]
+                    || ""
+                ).toLowerCase();
+
+
+            const englishDefinition =
+                (
+                    item["English Definition"]
+                    || ""
+                ).toLowerCase();
+
+
+            const mongolianDefinition =
+                (
+                    item["Монгол тайлбар"]
+                    || ""
+                ).toLowerCase();
+
+
+            const letterMatch =
+                selectedLetter === "ALL"
+                ||
+                english.startsWith(
+                    selectedLetter.toLowerCase()
+                );
+
+
+            const searchMatch =
+                !search
+                ||
+                english.includes(search)
+                ||
+                mongolian.includes(search)
+                ||
+                englishDefinition.includes(search)
+                ||
+                mongolianDefinition.includes(search);
+
+
+            return (
+                letterMatch
+                &&
+                searchMatch
+            );
+
+        });
+
+
+    if(results.length === 0){
 
         container.innerHTML = `
+
             <div class="no-results">
-                No terms found.
+
+                <div class="no-results-icon">
+                    🔍
+                </div>
+
+                <h3>
+                    No terms found
+                </h3>
+
+                <p>
+                    Try another English or
+                    Mongolian keyword.
+                </p>
+
             </div>
+
         `;
 
         return;
+
     }
 
 
-    container.innerHTML = filtered.map((item, index) => `
+    container.innerHTML =
+        results.map(item => {
 
-        <article
-            class="term-card"
-            onclick="openModal(${terms.indexOf(item)})"
-        >
 
-            <div class="term">
-                ${escapeHTML(item["English Term"])}
-            </div>
+            const index =
+                glossaryData.indexOf(
+                    item
+                );
 
-            <div class="mongol">
-                ${escapeHTML(item["Монгол нэр"] || "—")}
-            </div>
 
-            <div class="definition">
-                ${escapeHTML(
-                    item["English Definition"] || "No definition available."
-                )}
-            </div>
+            const english =
+                escapeHTML(
+                    item["English Term"]
+                    || "—"
+                );
 
-            <div class="more">
-                Click for details →
-            </div>
 
-        </article>
+            const mongolian =
+                escapeHTML(
+                    item["Монгол нэр"]
+                    || "—"
+                );
 
-    `).join("");
+
+            const definition =
+                escapeHTML(
+                    item["English Definition"]
+                    || "No definition available."
+                );
+
+
+            const firstLetter =
+                (
+                    item["English Term"]
+                    || "?"
+                )
+                .charAt(0)
+                .toUpperCase();
+
+
+            return `
+
+                <article
+                    class="card"
+                    onclick="openModal(${index})"
+                >
+
+                    <div class="card-top">
+
+                        <div class="english">
+                            ${english}
+                        </div>
+
+                        <div class="card-letter">
+                            ${firstLetter}
+                        </div>
+
+                    </div>
+
+
+                    <div class="mongolian">
+                        ${mongolian}
+                    </div>
+
+
+                    <div class="definition">
+                        ${definition}
+                    </div>
+
+
+                    <div class="view-details">
+                        View full definition →
+                    </div>
+
+                </article>
+
+            `;
+
+        }).join("");
 
 }
 
 
-/* ==========================================
+/* =====================================
    SEARCH
-========================================== */
+===================================== */
 
-function searchTerms() {
-    displayTerms();
-}
+document
+    .getElementById("searchInput")
+    .addEventListener(
+        "input",
+        renderGlossary
+    );
 
 
-/* ==========================================
+/* =====================================
    MODAL
-========================================== */
+===================================== */
 
-function openModal(index) {
+function openModal(index){
 
-    const item = terms[index];
+    const item =
+        glossaryData[index];
 
-    if (!item) return;
 
-    document.getElementById("modalEnglish")
+    if(!item) return;
+
+
+    document
+        .getElementById(
+            "modalEnglish"
+        )
         .textContent =
-        item["English Term"] || "—";
+        item["English Term"]
+        || "—";
 
-    document.getElementById("modalMongol")
+
+    document
+        .getElementById(
+            "modalMongolian"
+        )
         .textContent =
-        item["Монгол нэр"] || "—";
+        item["Монгол нэр"]
+        || "—";
 
-    document.getElementById("modalEnglishDefinition")
+
+    document
+        .getElementById(
+            "modalEnglishDefinition"
+        )
         .textContent =
-        item["English Definition"] || "—";
+        item["English Definition"]
+        || "—";
 
-    document.getElementById("modalMongolDefinition")
+
+    document
+        .getElementById(
+            "modalMongolianDefinition"
+        )
         .textContent =
-        item["Монгол тайлбар"] || "—";
+        item["Монгол тайлбар"]
+        || "—";
 
-    document.getElementById("modal")
-        .classList.add("show");
+
+    document
+        .getElementById("modal")
+        .classList.add("active");
+
+
+    document.body.style.overflow =
+        "hidden";
 
 }
 
 
-function closeModal() {
+function closeModal(){
 
-    document.getElementById("modal")
-        .classList.remove("show");
+    document
+        .getElementById("modal")
+        .classList.remove("active");
+
+
+    document.body.style.overflow =
+        "";
 
 }
 
 
-document.getElementById("modal")
-    .addEventListener("click", function(e) {
+document
+    .getElementById("modal")
+    .addEventListener(
+        "click",
+        function(event){
 
-        if (e.target === this) {
-            closeModal();
+            if(event.target === this){
+
+                closeModal();
+
+            }
+
         }
+    );
 
-    });
+
+document
+    .addEventListener(
+        "keydown",
+        function(event){
+
+            if(event.key === "Escape"){
+
+                closeModal();
+
+            }
+
+        }
+    );
 
 
-/* ==========================================
-   DARK / LIGHT MODE
-========================================== */
+/* =====================================
+   DARK / LIGHT
+===================================== */
 
-function toggleTheme() {
+function toggleTheme(){
 
-    document.body.classList.toggle("light");
+    const body =
+        document.body;
 
-    localStorage.setItem(
-        "theme",
-        document.body.classList.contains("light")
-            ? "light"
-            : "dark"
+
+    body.classList.toggle(
+        "light"
     );
 
 }
 
 
-if (localStorage.getItem("theme") === "light") {
+/* =====================================
+   ESCAPE HTML
+===================================== */
 
-    document.body.classList.add("light");
-
-}
-
-
-/* ==========================================
-   SECURITY
-========================================== */
-
-function escapeHTML(text) {
+function escapeHTML(text){
 
     return String(text)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
 
 }
 
 
-/* ==========================================
-   START
-========================================== */
+/* =====================================
+   START WEBSITE
+===================================== */
 
 loadGlossary();
 
