@@ -1,567 +1,918 @@
 <!DOCTYPE html>
-<html lang="mn">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Caving Terminology Glossary</title>
+<title>Caving Terminology | Mining & Geotechnical Engineering</title>
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
-        body {
-            margin: 0;
-            font-family: Arial, Helvetica, sans-serif;
-            background: #f4f6f8;
-            color: #222;
-        }
+:root {
+    --bg: #101214;
+    --card: #1b1f22;
+    --card2: #24292d;
+    --text: #f5f5f5;
+    --muted: #a9afb3;
+    --gold: #c99545;
+    --gold-light: #e5b86a;
+    --border: #343a3f;
+    --shadow: rgba(0,0,0,0.35);
+}
 
-        header {
-            background: #1f2937;
-            color: white;
-            padding: 45px 20px;
-            text-align: center;
-        }
+body.light {
+    --bg: #f2f2ef;
+    --card: #ffffff;
+    --card2: #eeeeea;
+    --text: #202326;
+    --muted: #666;
+    --gold: #9a681d;
+    --gold-light: #b47c28;
+    --border: #d7d7d2;
+    --shadow: rgba(0,0,0,0.12);
+}
 
-        header h1 {
-            margin: 0 0 10px;
-            font-size: 38px;
-        }
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    transition: 0.3s;
+}
 
-        header p {
-            margin: 0;
-            font-size: 17px;
-            opacity: 0.85;
-        }
+/* HERO */
 
-        .container {
-            max-width: 1100px;
-            margin: 30px auto;
-            padding: 0 20px;
-        }
+.hero {
+    min-height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
 
-        .search-box {
-            background: white;
-            padding: 20px;
-            border-radius: 14px;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
-            margin-bottom: 25px;
-        }
+    background:
+        linear-gradient(rgba(8,10,12,0.72), rgba(8,10,12,0.88)),
+        url("https://images.unsplash.com/photo-1513828583688-c52646db42da?auto=format&fit=crop&w=2000&q=85")
+        center/cover;
+}
 
-        #search {
-            width: 100%;
-            padding: 15px 18px;
-            border: 1px solid #d1d5db;
-            border-radius: 10px;
-            font-size: 16px;
-            outline: none;
-        }
+.hero-content {
+    max-width: 1000px;
+    padding: 40px 20px;
+}
 
-        #search:focus {
-            border-color: #374151;
-        }
+.hero-icon {
+    font-size: 60px;
+    margin-bottom: 15px;
+}
 
-        .alphabet {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 7px;
-            margin-top: 15px;
-        }
+.hero h1 {
+    font-size: clamp(42px, 7vw, 82px);
+    letter-spacing: 5px;
+    font-weight: 800;
+    margin-bottom: 15px;
+}
 
-        .alphabet button {
-            border: none;
-            background: #e5e7eb;
-            padding: 8px 12px;
-            border-radius: 7px;
-            cursor: pointer;
-            font-weight: bold;
-        }
+.hero p {
+    font-size: 20px;
+    color: #ddd;
+}
 
-        .alphabet button:hover,
-        .alphabet button.active {
-            background: #1f2937;
-            color: white;
-        }
+.hero-sub {
+    color: var(--gold-light) !important;
+    font-weight: bold;
+    margin-top: 8px;
+}
 
-        .count {
-            margin: 15px 0;
-            color: #6b7280;
-            font-size: 14px;
-        }
+/* TOP BAR */
 
-        .term-card {
-            background: white;
-            border-radius: 14px;
-            padding: 25px;
-            margin-bottom: 18px;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.07);
-            border-left: 5px solid #374151;
-        }
+.topbar {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    z-index: 5;
+}
 
-        .term-title {
-            font-size: 25px;
-            font-weight: bold;
-            color: #111827;
-            margin-bottom: 5px;
-        }
+.theme-btn {
+    border: 1px solid rgba(255,255,255,0.3);
+    background: rgba(0,0,0,0.35);
+    color: white;
+    border-radius: 30px;
+    padding: 10px 16px;
+    cursor: pointer;
+    font-size: 15px;
+}
 
-        .mongol-name {
-            font-size: 18px;
-            color: #4b5563;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
+/* MAIN */
 
-        .section {
-            margin-top: 15px;
-        }
+.container {
+    width: min(1200px, 92%);
+    margin: auto;
+}
 
-        .section-title {
-            font-weight: bold;
-            font-size: 14px;
-            color: #6b7280;
-            text-transform: uppercase;
-            margin-bottom: 5px;
-        }
+.controls {
+    margin-top: -45px;
+    position: relative;
+    z-index: 2;
+}
 
-        .section-text {
-            line-height: 1.6;
-            font-size: 16px;
-        }
+.search-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    box-shadow: 0 12px 35px var(--shadow);
+    border-radius: 18px;
+    padding: 22px;
+}
 
-        .no-results {
-            text-align: center;
-            padding: 50px;
-            background: white;
-            border-radius: 14px;
-            color: #6b7280;
-        }
+.search-box input {
+    width: 100%;
+    padding: 18px 22px;
+    border-radius: 12px;
+    border: 2px solid var(--border);
+    outline: none;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 18px;
+}
 
-        footer {
-            text-align: center;
-            padding: 30px;
-            margin-top: 40px;
-            background: #1f2937;
-            color: white;
-            font-size: 14px;
-        }
+.search-box input:focus {
+    border-color: var(--gold);
+}
 
-        @media (max-width: 600px) {
-            header h1 {
-                font-size: 28px;
-            }
+/* STATS */
 
-            .term-title {
-                font-size: 21px;
-            }
+.stats {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    margin: 35px 0;
+    flex-wrap: wrap;
+}
 
-            .container {
-                padding: 0 12px;
-            }
-        }
-    </style>
+.stat {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px 35px;
+    text-align: center;
+    min-width: 180px;
+}
+
+.stat-number {
+    font-size: 32px;
+    color: var(--gold-light);
+    font-weight: bold;
+}
+
+.stat-label {
+    color: var(--muted);
+}
+
+/* ALPHABET */
+
+.alphabet {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 7px;
+    margin-bottom: 35px;
+}
+
+.letter {
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text);
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.letter:hover,
+.letter.active {
+    background: var(--gold);
+    color: white;
+    border-color: var(--gold);
+}
+
+/* GLOSSARY */
+
+.glossary {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 18px;
+    padding-bottom: 60px;
+}
+
+.term-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    padding: 22px;
+    cursor: pointer;
+    transition: 0.25s;
+    box-shadow: 0 5px 15px var(--shadow);
+}
+
+.term-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--gold);
+}
+
+.term {
+    color: var(--gold-light);
+    font-size: 21px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.mongol {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+
+.definition {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.more {
+    margin-top: 14px;
+    font-size: 13px;
+    color: var(--gold-light);
+}
+
+/* MODAL */
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.modal.show {
+    display: flex;
+}
+
+.modal-content {
+    width: min(750px, 100%);
+    max-height: 90vh;
+    overflow-y: auto;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 35px;
+    position: relative;
+    box-shadow: 0 20px 70px rgba(0,0,0,0.5);
+}
+
+.close {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    font-size: 30px;
+    cursor: pointer;
+    color: var(--muted);
+}
+
+.close:hover {
+    color: var(--gold-light);
+}
+
+.modal-term {
+    font-size: 34px;
+    color: var(--gold-light);
+    margin-bottom: 5px;
+}
+
+.modal-mongol {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+.section-title {
+    color: var(--gold-light);
+    font-weight: bold;
+    margin-bottom: 8px;
+    margin-top: 20px;
+}
+
+.modal-text {
+    color: var(--muted);
+    font-size: 16px;
+}
+
+/* LOADING */
+
+.loading {
+    text-align: center;
+    padding: 60px;
+    color: var(--muted);
+    font-size: 18px;
+}
+
+.no-results {
+    text-align: center;
+    padding: 50px;
+    color: var(--muted);
+}
+
+/* FOOTER */
+
+footer {
+    border-top: 1px solid var(--border);
+    padding: 30px 20px;
+    text-align: center;
+    color: var(--muted);
+}
+
+footer strong {
+    color: var(--gold-light);
+}
+
+/* MOBILE */
+
+@media(max-width:600px) {
+
+    .hero {
+        min-height: 430px;
+    }
+
+    .hero h1 {
+        letter-spacing: 2px;
+    }
+
+    .hero p {
+        font-size: 16px;
+    }
+
+    .controls {
+        margin-top: -35px;
+    }
+
+    .search-box {
+        padding: 15px;
+    }
+
+    .glossary {
+        grid-template-columns: 1fr;
+    }
+
+    .modal-content {
+        padding: 25px;
+    }
+
+    .modal-term {
+        font-size: 27px;
+    }
+}
+</style>
 </head>
 
 <body>
 
-<header>
-    <h1>⛏ Caving Terminology Glossary</h1>
-    <p>English – Монгол уурхайн нураалтын нэр томьёоны толь</p>
-</header>
+<!-- HERO -->
 
-<div class="container">
+<section class="hero">
 
-    <div class="search-box">
+    <div class="topbar">
+        <button class="theme-btn" onclick="toggleTheme()">
+            🌙 / ☀️
+        </button>
+    </div>
 
-        <input
-            type="text"
-            id="search"
-            placeholder="🔍 Нэр томьёо хайх... English эсвэл Монгол"
-        >
+    <div class="hero-content">
 
-        <div class="alphabet" id="alphabet"></div>
+        <div class="hero-icon">⛏️</div>
+
+        <h1>CAVING TERMINOLOGY</h1>
+
+        <p>English → Монгол</p>
+
+        <p class="hero-sub">
+            Mining & Geotechnical Engineering
+        </p>
 
     </div>
 
-    <div class="count" id="count">
-        Ачаалж байна...
-    </div>
+</section>
 
-    <div id="glossary"></div>
+
+<!-- MAIN -->
+
+<main class="container">
+
+    <section class="controls">
+
+        <div class="search-box">
+
+            <input
+                id="search"
+                type="text"
+                placeholder="🔎 Search English or Монгол нэр..."
+                oninput="searchTerms()"
+            >
+
+        </div>
+
+    </section>
+
+
+    <!-- STATS -->
+
+    <section class="stats">
+
+        <div class="stat">
+            <div class="stat-number" id="termCount">0</div>
+            <div class="stat-label">Terms</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-number">A–Z</div>
+            <div class="stat-label">Alphabetical</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-number">EN → MN</div>
+            <div class="stat-label">Translation</div>
+        </div>
+
+    </section>
+
+
+    <!-- ALPHABET -->
+
+    <div class="alphabet" id="alphabet"></div>
+
+
+    <!-- GLOSSARY -->
+
+    <section id="glossary" class="glossary">
+
+        <div class="loading">
+            Loading glossary...
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- MODAL -->
+
+<div class="modal" id="modal">
+
+    <div class="modal-content">
+
+        <span class="close" onclick="closeModal()">×</span>
+
+        <div class="modal-term" id="modalEnglish"></div>
+
+        <div class="modal-mongol" id="modalMongol"></div>
+
+        <div class="section-title">
+            English Definition
+        </div>
+
+        <div class="modal-text" id="modalEnglishDefinition"></div>
+
+        <div class="section-title">
+            Монгол тайлбар
+        </div>
+
+        <div class="modal-text" id="modalMongolDefinition"></div>
+
+    </div>
 
 </div>
 
+
+<!-- FOOTER -->
+
 <footer>
-    Caving Terminology Glossary
+
+    <strong>Caving Terminology Glossary</strong>
+
+    <br>
+
+    Mining & Geotechnical Engineering
+
 </footer>
 
 
 <script>
 
-    let glossary = [];
-    let selectedLetter = "";
+/* ==========================================
+   GOOGLE SHEETS CSV
+========================================== */
 
-    /*
-       CSV файлаас мэдээлэл унших
-    */
-
-    fetch("glossary.csv")
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("glossary.csv файл олдсонгүй");
-            }
-
-            return response.text();
-        })
-
-        .then(csv => {
-
-            glossary = parseCSV(csv);
-
-            createAlphabet();
-
-            displayTerms();
-
-        })
-
-        .catch(error => {
-
-            document.getElementById("glossary").innerHTML = `
-                <div class="no-results">
-                    <h2>⚠️ Glossary файл олдсонгүй</h2>
-                    <p>
-                        GitHub repository дотор
-                        <strong>glossary.csv</strong>
-                        файл байгаа эсэхийг шалгана уу.
-                    </p>
-                </div>
-            `;
-
-            console.error(error);
-
-        });
+const CSV_URL =
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vQzzKTwRYU8uWvuANW0d7s-I5xK4uwF0QhwJIiQlCWGYZX0MbkLXvOTQ6yfJdzPmT38ykXIFpWIK36R/pub?gid=129970236&single=true&output=csv";
 
 
-    /*
-       CSV унших функц
-    */
+let terms = [];
+let currentLetter = "ALL";
 
-    function parseCSV(text) {
 
-        const rows = [];
-        let row = [];
-        let cell = "";
-        let insideQuotes = false;
+/* ==========================================
+   CSV PARSER
+========================================== */
 
-        for (let i = 0; i < text.length; i++) {
+function parseCSV(text) {
 
-            const char = text[i];
-            const next = text[i + 1];
+    const rows = [];
+    let row = [];
+    let value = "";
+    let insideQuotes = false;
 
-            if (char === '"' && insideQuotes && next === '"') {
+    for (let i = 0; i < text.length; i++) {
 
-                cell += '"';
+        const char = text[i];
+        const next = text[i + 1];
+
+        if (char === '"' && insideQuotes && next === '"') {
+
+            value += '"';
+            i++;
+
+        } else if (char === '"') {
+
+            insideQuotes = !insideQuotes;
+
+        } else if (char === ',' && !insideQuotes) {
+
+            row.push(value);
+            value = "";
+
+        } else if ((char === '\n' || char === '\r') && !insideQuotes) {
+
+            if (char === '\r' && next === '\n') {
                 i++;
-
             }
 
-            else if (char === '"') {
-
-                insideQuotes = !insideQuotes;
-
-            }
-
-            else if (char === "," && !insideQuotes) {
-
-                row.push(cell.trim());
-                cell = "";
-
-            }
-
-            else if ((char === "\n" || char === "\r") && !insideQuotes) {
-
-                if (cell !== "" || row.length > 0) {
-
-                    row.push(cell.trim());
-                    rows.push(row);
-
-                    row = [];
-                    cell = "";
-
-                }
-
-                if (char === "\r" && next === "\n") {
-                    i++;
-                }
-
-            }
-
-            else {
-
-                cell += char;
-
-            }
-        }
-
-        if (cell !== "" || row.length > 0) {
-
-            row.push(cell.trim());
+            row.push(value);
             rows.push(row);
 
+            row = [];
+            value = "";
+
+        } else {
+
+            value += char;
+
         }
+    }
 
-        /*
-           Эхний мөрийг баганын нэр гэж үзнэ
-        */
+    if (value.length > 0 || row.length > 0) {
 
-        const headers = rows.shift();
-
-        return rows
-            .filter(row => row.length >= 4)
-            .map(row => ({
-
-                english:
-                    row[0] || "",
-
-                mongolian:
-                    row[1] || "",
-
-                englishDefinition:
-                    row[2] || "",
-
-                mongolianDefinition:
-                    row[3] || ""
-
-            }));
+        row.push(value);
+        rows.push(row);
 
     }
 
+    return rows;
+}
 
-    /*
-       A-Z үсгүүд үүсгэх
-    */
 
-    function createAlphabet() {
+/* ==========================================
+   LOAD DATA
+========================================== */
 
-        const alphabetBox =
-            document.getElementById("alphabet");
+async function loadGlossary() {
 
-        const allButton =
-            document.createElement("button");
+    try {
 
-        allButton.textContent = "ALL";
+        const response = await fetch(
+            CSV_URL + "&t=" + Date.now()
+        );
+
+        if (!response.ok) {
+            throw new Error("Could not load Google Sheets");
+        }
+
+        const csv = await response.text();
+
+        const rows = parseCSV(csv);
+
+        if (rows.length < 2) {
+            throw new Error("No glossary data found");
+        }
+
+        const headers = rows[0].map(h => h.trim());
+
+        terms = rows.slice(1)
+            .map(row => {
+
+                let obj = {};
+
+                headers.forEach((header, index) => {
+                    obj[header] = (row[index] || "").trim();
+                });
+
+                return obj;
+
+            })
+            .filter(item =>
+                item["English Term"] &&
+                item["English Term"].trim() !== ""
+            );
+
+        terms.sort((a,b) =>
+            a["English Term"].localeCompare(
+                b["English Term"]
+            )
+        );
+
+        document.getElementById("termCount").textContent =
+            terms.length + "+";
+
+        createAlphabet();
+
+        displayTerms();
+
+    }
+
+    catch(error) {
+
+        console.error(error);
+
+        document.getElementById("glossary").innerHTML = `
+            <div class="no-results">
+                ❌ Glossary could not be loaded.
+                <br><br>
+                Please check that the Google Sheet is published.
+            </div>
+        `;
+
+    }
+
+}
+
+
+/* ==========================================
+   ALPHABET
+========================================== */
+
+function createAlphabet() {
+
+    const alphabet =
+        document.getElementById("alphabet");
+
+    alphabet.innerHTML = "";
+
+    const allButton =
+        document.createElement("button");
+
+    allButton.className = "letter active";
+    allButton.textContent = "ALL";
+
+    allButton.onclick = () => {
+
+        currentLetter = "ALL";
+
+        document.querySelectorAll(".letter")
+            .forEach(btn => btn.classList.remove("active"));
 
         allButton.classList.add("active");
 
-        allButton.onclick = function () {
+        displayTerms();
 
-            selectedLetter = "";
+    };
 
-            document
-                .querySelectorAll(".alphabet button")
-                .forEach(button => {
-                    button.classList.remove("active");
-                });
+    alphabet.appendChild(allButton);
 
-            allButton.classList.add("active");
+
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").forEach(letter => {
+
+        const button =
+            document.createElement("button");
+
+        button.className = "letter";
+        button.textContent = letter;
+
+        button.onclick = () => {
+
+            currentLetter = letter;
+
+            document.querySelectorAll(".letter")
+                .forEach(btn =>
+                    btn.classList.remove("active")
+                );
+
+            button.classList.add("active");
 
             displayTerms();
 
         };
 
-        alphabetBox.appendChild(allButton);
+        alphabet.appendChild(button);
+
+    });
+
+}
 
 
-        const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+/* ==========================================
+   DISPLAY TERMS
+========================================== */
 
-        for (const letter of letters) {
+function displayTerms() {
 
-            const button =
-                document.createElement("button");
+    const container =
+        document.getElementById("glossary");
 
-            button.textContent = letter;
+    const search =
+        document.getElementById("search")
+            .value
+            .toLowerCase()
+            .trim();
 
-            button.onclick = function () {
 
-                selectedLetter = letter;
+    const filtered = terms.filter(item => {
 
-                document
-                    .querySelectorAll(".alphabet button")
-                    .forEach(button => {
-                        button.classList.remove("active");
-                    });
+        const english =
+            (item["English Term"] || "").toLowerCase();
 
-                button.classList.add("active");
+        const mongol =
+            (item["Монгол нэр"] || "").toLowerCase();
 
-                displayTerms();
+        const letterMatch =
+            currentLetter === "ALL" ||
+            english.startsWith(currentLetter.toLowerCase());
 
-            };
+        const searchMatch =
+            !search ||
+            english.includes(search) ||
+            mongol.includes(search);
 
-            alphabetBox.appendChild(button);
+        return letterMatch && searchMatch;
 
+    });
+
+
+    if (filtered.length === 0) {
+
+        container.innerHTML = `
+            <div class="no-results">
+                No terms found.
+            </div>
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML = filtered.map((item, index) => `
+
+        <article
+            class="term-card"
+            onclick="openModal(${terms.indexOf(item)})"
+        >
+
+            <div class="term">
+                ${escapeHTML(item["English Term"])}
+            </div>
+
+            <div class="mongol">
+                ${escapeHTML(item["Монгол нэр"] || "—")}
+            </div>
+
+            <div class="definition">
+                ${escapeHTML(
+                    item["English Definition"] || "No definition available."
+                )}
+            </div>
+
+            <div class="more">
+                Click for details →
+            </div>
+
+        </article>
+
+    `).join("");
+
+}
+
+
+/* ==========================================
+   SEARCH
+========================================== */
+
+function searchTerms() {
+    displayTerms();
+}
+
+
+/* ==========================================
+   MODAL
+========================================== */
+
+function openModal(index) {
+
+    const item = terms[index];
+
+    if (!item) return;
+
+    document.getElementById("modalEnglish")
+        .textContent =
+        item["English Term"] || "—";
+
+    document.getElementById("modalMongol")
+        .textContent =
+        item["Монгол нэр"] || "—";
+
+    document.getElementById("modalEnglishDefinition")
+        .textContent =
+        item["English Definition"] || "—";
+
+    document.getElementById("modalMongolDefinition")
+        .textContent =
+        item["Монгол тайлбар"] || "—";
+
+    document.getElementById("modal")
+        .classList.add("show");
+
+}
+
+
+function closeModal() {
+
+    document.getElementById("modal")
+        .classList.remove("show");
+
+}
+
+
+document.getElementById("modal")
+    .addEventListener("click", function(e) {
+
+        if (e.target === this) {
+            closeModal();
         }
 
-    }
+    });
 
 
-    /*
-       Glossary харуулах
-    */
+/* ==========================================
+   DARK / LIGHT MODE
+========================================== */
 
-    function displayTerms() {
+function toggleTheme() {
 
-        const container =
-            document.getElementById("glossary");
+    document.body.classList.toggle("light");
 
-        const searchValue =
-            document
-                .getElementById("search")
-                .value
-                .toLowerCase()
-                .trim();
+    localStorage.setItem(
+        "theme",
+        document.body.classList.contains("light")
+            ? "light"
+            : "dark"
+    );
 
+}
 
-        let filtered = glossary.filter(term => {
 
-            const searchText = (
+if (localStorage.getItem("theme") === "light") {
 
-                term.english +
-                " " +
-                term.mongolian +
-                " " +
-                term.englishDefinition +
-                " " +
-                term.mongolianDefinition
+    document.body.classList.add("light");
 
-            ).toLowerCase();
+}
 
 
-            const matchesSearch =
-                searchText.includes(searchValue);
+/* ==========================================
+   SECURITY
+========================================== */
 
+function escapeHTML(text) {
 
-            const matchesLetter =
-                selectedLetter === "" ||
-                term.english
-                    .toUpperCase()
-                    .startsWith(selectedLetter);
+    return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 
+}
 
-            return matchesSearch && matchesLetter;
 
-        });
+/* ==========================================
+   START
+========================================== */
 
-
-        document.getElementById("count").textContent =
-            filtered.length +
-            " нэр томьёо харагдаж байна";
-
-
-        container.innerHTML = "";
-
-
-        if (filtered.length === 0) {
-
-            container.innerHTML = `
-                <div class="no-results">
-                    <h2>Илэрц олдсонгүй</h2>
-                    <p>Өөр нэр томьёо хайж үзнэ үү.</p>
-                </div>
-            `;
-
-            return;
-
-        }
-
-
-        filtered.forEach(term => {
-
-            const card =
-                document.createElement("div");
-
-            card.className = "term-card";
-
-
-            card.innerHTML = `
-
-                <div class="term-title">
-                    ${escapeHTML(term.english)}
-                </div>
-
-                <div class="mongol-name">
-                    ${escapeHTML(term.mongolian)}
-                </div>
-
-
-                <div class="section">
-
-                    <div class="section-title">
-                        English Definition
-                    </div>
-
-                    <div class="section-text">
-                        ${escapeHTML(term.englishDefinition)}
-                    </div>
-
-                </div>
-
-
-                <div class="section">
-
-                    <div class="section-title">
-                        Монгол тайлбар
-                    </div>
-
-                    <div class="section-text">
-                        ${escapeHTML(term.mongolianDefinition)}
-                    </div>
-
-                </div>
-
-            `;
-
-
-            container.appendChild(card);
-
-        });
-
-    }
-
-
-    /*
-       Хайлт хийх
-    */
-
-    document
-        .getElementById("search")
-        .addEventListener("input", function () {
-
-            displayTerms();
-
-        });
-
-
-    /*
-       HTML кодыг хамгаалах
-    */
-
-    function escapeHTML(text) {
-
-        return String(text)
-
-            .replace(/&/g, "&amp;")
-
-            .replace(/</g, "&lt;")
-
-            .replace(/>/g, "&gt;")
-
-            .replace(/"/g, "&quot;")
-
-            .replace(/'/g, "&#039;");
-
-    }
+loadGlossary();
 
 </script>
 
