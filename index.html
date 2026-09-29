@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Caving Terminology Glossary</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f6f8;
+            color: #222;
+        }
+
+        header {
+            background: #1f2937;
+            color: white;
+            padding: 45px 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0 0 10px;
+            font-size: 38px;
+        }
+
+        header p {
+            margin: 0;
+            font-size: 17px;
+            opacity: 0.85;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .search-box {
+            background: white;
+            padding: 20px;
+            border-radius: 14px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+            margin-bottom: 25px;
+        }
+
+        #search {
+            width: 100%;
+            padding: 15px 18px;
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        #search:focus {
+            border-color: #374151;
+        }
+
+        .alphabet {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+            margin-top: 15px;
+        }
+
+        .alphabet button {
+            border: none;
+            background: #e5e7eb;
+            padding: 8px 12px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .alphabet button:hover,
+        .alphabet button.active {
+            background: #1f2937;
+            color: white;
+        }
+
+        .count {
+            margin: 15px 0;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .term-card {
+            background: white;
+            border-radius: 14px;
+            padding: 25px;
+            margin-bottom: 18px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.07);
+            border-left: 5px solid #374151;
+        }
+
+        .term-title {
+            font-size: 25px;
+            font-weight: bold;
+            color: #111827;
+            margin-bottom: 5px;
+        }
+
+        .mongol-name {
+            font-size: 18px;
+            color: #4b5563;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .section {
+            margin-top: 15px;
+        }
+
+        .section-title {
+            font-weight: bold;
+            font-size: 14px;
+            color: #6b7280;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .section-text {
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 50px;
+            background: white;
+            border-radius: 14px;
+            color: #6b7280;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            margin-top: 40px;
+            background: #1f2937;
+            color: white;
+            font-size: 14px;
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 28px;
+            }
+
+            .term-title {
+                font-size: 21px;
+            }
+
+            .container {
+                padding: 0 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>⛏ Caving Terminology Glossary</h1>
+    <p>English – Монгол уурхайн нураалтын нэр томьёоны толь</p>
+</header>
+
+<div class="container">
+
+    <div class="search-box">
+
+        <input
+            type="text"
+            id="search"
+            placeholder="🔍 Нэр томьёо хайх... English эсвэл Монгол"
+        >
+
+        <div class="alphabet" id="alphabet"></div>
+
+    </div>
+
+    <div class="count" id="count">
+        Ачаалж байна...
+    </div>
+
+    <div id="glossary"></div>
+
+</div>
+
+<footer>
+    Caving Terminology Glossary
+</footer>
+
+
+<script>
+
+    let glossary = [];
+    let selectedLetter = "";
+
+    /*
+       CSV файлаас мэдээлэл унших
+    */
+
+    fetch("glossary.csv")
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("glossary.csv файл олдсонгүй");
+            }
+
+            return response.text();
+        })
+
+        .then(csv => {
+
+            glossary = parseCSV(csv);
+
+            createAlphabet();
+
+            displayTerms();
+
+        })
+
+        .catch(error => {
+
+            document.getElementById("glossary").innerHTML = `
+                <div class="no-results">
+                    <h2>⚠️ Glossary файл олдсонгүй</h2>
+                    <p>
+                        GitHub repository дотор
+                        <strong>glossary.csv</strong>
+                        файл байгаа эсэхийг шалгана уу.
+                    </p>
+                </div>
+            `;
+
+            console.error(error);
+
+        });
+
+
+    /*
+       CSV унших функц
+    */
+
+    function parseCSV(text) {
+
+        const rows = [];
+        let row = [];
+        let cell = "";
+        let insideQuotes = false;
+
+        for (let i = 0; i < text.length; i++) {
+
+            const char = text[i];
+            const next = text[i + 1];
+
+            if (char === '"' && insideQuotes && next === '"') {
+
+                cell += '"';
+                i++;
+
+            }
+
+            else if (char === '"') {
+
+                insideQuotes = !insideQuotes;
+
+            }
+
+            else if (char === "," && !insideQuotes) {
+
+                row.push(cell.trim());
+                cell = "";
+
+            }
+
+            else if ((char === "\n" || char === "\r") && !insideQuotes) {
+
+                if (cell !== "" || row.length > 0) {
+
+                    row.push(cell.trim());
+                    rows.push(row);
+
+                    row = [];
+                    cell = "";
+
+                }
+
+                if (char === "\r" && next === "\n") {
+                    i++;
+                }
+
+            }
+
+            else {
+
+                cell += char;
+
+            }
+        }
+
+        if (cell !== "" || row.length > 0) {
+
+            row.push(cell.trim());
+            rows.push(row);
+
+        }
+
+        /*
+           Эхний мөрийг баганын нэр гэж үзнэ
+        */
+
+        const headers = rows.shift();
+
+        return rows
+            .filter(row => row.length >= 4)
+            .map(row => ({
+
+                english:
+                    row[0] || "",
+
+                mongolian:
+                    row[1] || "",
+
+                englishDefinition:
+                    row[2] || "",
+
+                mongolianDefinition:
+                    row[3] || ""
+
+            }));
+
+    }
+
+
+    /*
+       A-Z үсгүүд үүсгэх
+    */
+
+    function createAlphabet() {
+
+        const alphabetBox =
+            document.getElementById("alphabet");
+
+        const allButton =
+            document.createElement("button");
+
+        allButton.textContent = "ALL";
+
+        allButton.classList.add("active");
+
+        allButton.onclick = function () {
+
+            selectedLetter = "";
+
+            document
+                .querySelectorAll(".alphabet button")
+                .forEach(button => {
+                    button.classList.remove("active");
+                });
+
+            allButton.classList.add("active");
+
+            displayTerms();
+
+        };
+
+        alphabetBox.appendChild(allButton);
+
+
+        const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+        for (const letter of letters) {
+
+            const button =
+                document.createElement("button");
+
+            button.textContent = letter;
+
+            button.onclick = function () {
+
+                selectedLetter = letter;
+
+                document
+                    .querySelectorAll(".alphabet button")
+                    .forEach(button => {
+                        button.classList.remove("active");
+                    });
+
+                button.classList.add("active");
+
+                displayTerms();
+
+            };
+
+            alphabetBox.appendChild(button);
+
+        }
+
+    }
+
+
+    /*
+       Glossary харуулах
+    */
+
+    function displayTerms() {
+
+        const container =
+            document.getElementById("glossary");
+
+        const searchValue =
+            document
+                .getElementById("search")
+                .value
+                .toLowerCase()
+                .trim();
+
+
+        let filtered = glossary.filter(term => {
+
+            const searchText = (
+
+                term.english +
+                " " +
+                term.mongolian +
+                " " +
+                term.englishDefinition +
+                " " +
+                term.mongolianDefinition
+
+            ).toLowerCase();
+
+
+            const matchesSearch =
+                searchText.includes(searchValue);
+
+
+            const matchesLetter =
+                selectedLetter === "" ||
+                term.english
+                    .toUpperCase()
+                    .startsWith(selectedLetter);
+
+
+            return matchesSearch && matchesLetter;
+
+        });
+
+
+        document.getElementById("count").textContent =
+            filtered.length +
+            " нэр томьёо харагдаж байна";
+
+
+        container.innerHTML = "";
+
+
+        if (filtered.length === 0) {
+
+            container.innerHTML = `
+                <div class="no-results">
+                    <h2>Илэрц олдсонгүй</h2>
+                    <p>Өөр нэр томьёо хайж үзнэ үү.</p>
+                </div>
+            `;
+
+            return;
+
+        }
+
+
+        filtered.forEach(term => {
+
+            const card =
+                document.createElement("div");
+
+            card.className = "term-card";
+
+
+            card.innerHTML = `
+
+                <div class="term-title">
+                    ${escapeHTML(term.english)}
+                </div>
+
+                <div class="mongol-name">
+                    ${escapeHTML(term.mongolian)}
+                </div>
+
+
+                <div class="section">
+
+                    <div class="section-title">
+                        English Definition
+                    </div>
+
+                    <div class="section-text">
+                        ${escapeHTML(term.englishDefinition)}
+                    </div>
+
+                </div>
+
+
+                <div class="section">
+
+                    <div class="section-title">
+                        Монгол тайлбар
+                    </div>
+
+                    <div class="section-text">
+                        ${escapeHTML(term.mongolianDefinition)}
+                    </div>
+
+                </div>
+
+            `;
+
+
+            container.appendChild(card);
+
+        });
+
+    }
+
+
+    /*
+       Хайлт хийх
+    */
+
+    document
+        .getElementById("search")
+        .addEventListener("input", function () {
+
+            displayTerms();
+
+        });
+
+
+    /*
+       HTML кодыг хамгаалах
+    */
+
+    function escapeHTML(text) {
+
+        return String(text)
+
+            .replace(/&/g, "&amp;")
+
+            .replace(/</g, "&lt;")
+
+            .replace(/>/g, "&gt;")
+
+            .replace(/"/g, "&quot;")
+
+            .replace(/'/g, "&#039;");
+
+    }
+
+</script>
+
+</body>
+</html>
